@@ -88,25 +88,25 @@ def pointLineDist(start, end, pt): # pt is the point
     result = nom / denom
     return result
 
-
-n = 30000
-points = [PyVector(Random(2000), Random(2000)) for i in range(n)]
-with CodeTimer(f"QuickHull with {n} points"):
-	hull = getquickhull(points)
-
-print(f"{len(hull)} points in the hull")
-
-
-graph = True #get_input("graph points?")
-
-
-if graph:
-	x = [p.x for p in points]
-	y = [p.y for p in points]
-	x1 = [p.x for p in hull]
-	y1 = [p.y for p in hull]
+if __name__ == "__main__":
+	n = 30000
+	points = [PyVector(Random(2000), Random(2000)) for i in range(n)]
+	with CodeTimer(f"QuickHull with {n} points"):
+		hull = getquickhull(points)
 	
-	plt.plot(x,y, 'bo')
-	plt.plot(x1,y1)
-	plt.show()
+	print(f"{len(hull)} points in the hull")
+	
+	
+	graph = True #get_input("graph points?")
+	
+	
+	if graph:
+		x = [p.x for p in points]
+		y = [p.y for p in points]
+		x1 = [p.x for p in hull]
+		y1 = [p.y for p in hull]
+		
+		plt.plot(x,y, 'bo')
+		plt.plot(x1,y1)
+		plt.show()
 
