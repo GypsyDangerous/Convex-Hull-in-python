@@ -18,11 +18,11 @@ class PyVector:
 		return temp
 
 
-	def __sub__(self, vector):
+	def __sub__(self, v):
 		temp = self.copy();
-		temp.x -= vector.x
-		temp.y -= vector.y
-		temp.z -= vector.z
+		temp.x -= v.x
+		temp.y -= v.y
+		temp.z -= v.z
 		return temp
 
 	def __truediv__(self, divisor):
@@ -44,6 +44,10 @@ class PyVector:
 			temp.z *= multer
 		return temp
 
+	def __getitem__(self, item):
+		me = [i for i in self]
+		return me[item]
+
 	def __iter__(self):
 		return iter([self.x, self.y, self.z])
 
@@ -58,17 +62,20 @@ class PyVector:
 			self.y = y
 			self.z = z
 
+	@property
 	def heading(self):
 		return math.atan2(self.y, self.x)
 
 	def setHeading(self, heading):
-		mag = self.mag()
+		mag = self.mag
 		self.set(PyVector.fromAngle(heading))
 		self.setMag(mag)
 
+	@property
 	def mag(self):
-		return round(math.sqrt(self.magSq()), 30);
+		return round(math.sqrt(self.magSq), 30)
 
+	@property
 	def magSq(self):
 		return (self.x**2 + self.y**2 + self.z**2)
 
@@ -81,7 +88,7 @@ class PyVector:
 
 	def normalize(self):
 		temp = self.copy()
-		temp /= (temp.mag())
+		temp /= (temp.mag)
 		self.set(temp)
 		return self
 
@@ -105,6 +112,16 @@ class PyVector:
 	def dot(self, other):
 		return (self.x * other.x) + (self.y * other.y) + (self.z * other.z)
 
+	def cross(self, v):
+		x = self.y * v.z - self.z * v.y;
+		y = self.z * v.x - self.x * v.z;
+		z = self.x * v.y - self.y * v.x;
+		return PyVector(x, y, z)
+
+	def limit(self, lim):
+		if self.mag > lim:
+			self.setMag(lim)
+
 	@classmethod
 	def Polar(cls, r, theta):
 		return cls.fromAngle(theta).setMag(r)
@@ -114,9 +131,10 @@ class PyVector:
 		return math.acos(a.dot(b)/(a.mag()*b.mag()))
 
 	@classmethod
-	def random2D(cls):
+	def random2D(cls, normal = False):
 		r = cls(Random(-1, 1), Random(-1, 1))
-		r.normalize()
+		if normal:
+			r.normalize()
 		return r
 
 	@classmethod
@@ -134,6 +152,6 @@ class PyVector:
 if __name__ == "__main__":
 	a = PyVector.random2D() 
 	a *= 10
-	print(a.mag(), a.heading())
+	print(a.mag, a.heading)
 	a.setHeading(math.pi/2)
-	print(a.mag(), a.heading())
+	print(a.mag, a.heading)
