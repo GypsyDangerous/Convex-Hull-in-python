@@ -1,4 +1,4 @@
-# QuickHull-in-python
+# Convex Hull in python
 
 ## Files
 * convexhull.py - the file that contains the quickhull algorithm and example
